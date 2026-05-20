@@ -1,10 +1,13 @@
 """NullPhys frequentist verification of the K2-18b DMS rejection.
 
-The JWST-biosignatures project (this repo) already rejects the K2-18b DMS
-claim via Bayesian model comparison: BF(DMS | base, K2-18b, phys-priors)
-≈ -1.17 on both Madhusudhan and Schmidt reductions. This script provides
-an *independent frequentist* cross-check using the NullPhys-verified
-matched-spectrum surrogate.
+The companion JWST-biosignatures project
+(`~/workspace/jwst-biosignatures`, github.com/MattLoftus/jwst-biosignatures)
+already rejects the K2-18b DMS claim via Bayesian model comparison:
+BF(DMS | base, K2-18b, phys-priors) ≈ -1.17 on both Madhusudhan and Schmidt
+reductions. This script provides an *independent frequentist* cross-check
+using the NullPhys-verified matched-spectrum surrogate. It reads data and
+posterior medians from the JWST-biosignatures repo read-only — no writes
+back to that tree.
 
 Procedure
 ---------
@@ -30,8 +33,10 @@ the empirical implementation here in numpy reproduces those nulls.
 
 Usage
 -----
+    # Activate the JWST-biosignatures venv (for petitRADTRANS + src/),
+    # but run the script from anywhere; it writes outputs into examples/.
     cd ~/workspace/jwst-biosignatures && source venv/bin/activate
-    python scripts/nullphys_k2_18b_dms.py
+    python ~/workspace/nullphys/examples/k2_18b_dms.py
 """
 from __future__ import annotations
 
@@ -46,7 +51,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_JWST_ROOT = os.path.expanduser("~/workspace/jwst-biosignatures")
+sys.path.insert(0, _JWST_ROOT)
+# JWST-biosignatures retrievals expect this CWD for relative `experiments/` and
+# `data/` lookups.
+os.chdir(_JWST_ROOT)
 
 from src.opacities import apply_standard_defaults
 from src.data import load_spectrum
@@ -138,8 +147,8 @@ def load_base_medians(exp_dir: str, mode: str = "veryhigh") -> dict[str, float]:
 
 def main():
     apply_standard_defaults()
-    out_dir = os.path.join(os.path.dirname(os.path.dirname(
-        os.path.abspath(__file__))), "papers", "figures")
+    # Outputs land in nullphys/examples/, NOT in the JWST-biosignatures tree.
+    out_dir = os.path.expanduser("~/workspace/nullphys/examples")
     os.makedirs(out_dir, exist_ok=True)
 
     print("Loading K2-18b spectrum + base retrieval medians …")
@@ -230,7 +239,7 @@ def main():
         ),
     }
 
-    json_out = os.path.join(out_dir, "nullphys_k2_18b_dms.json")
+    json_out = os.path.join(out_dir, "k2_18b_dms.json")
     with open(json_out, "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nsaved {json_out}")
@@ -266,7 +275,7 @@ def main():
     ax.grid(alpha=0.3)
 
     fig.tight_layout()
-    png_out = os.path.join(out_dir, "nullphys_k2_18b_dms.png")
+    png_out = os.path.join(out_dir, "k2_18b_dms.png")
     fig.savefig(png_out, dpi=130)
     print(f"saved {png_out}")
 
