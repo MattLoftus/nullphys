@@ -135,7 +135,7 @@ None formalize "the null model used in *this specific published 3-5σ claim*" �
 ### 2026-05-20 — Session 3 (K2-18b capstone application)
 
 - Pushed to GitHub: https://github.com/MattLoftus/nullphys (commit `790de52` v0.1)
-- Built K2-18b DMS frequentist corroboration script (`examples/k2_18b_dms.py`, also at `jwst-biosignatures/scripts/nullphys_k2_18b_dms.py`)
+- Built K2-18b DMS frequentist corroboration script (`examples/k2_18b_dms.py`). It uses the JWST-biosignatures repo (`~/workspace/jwst-biosignatures`) read-only at runtime for the petitRADTRANS forward model + K2-18b posterior medians; outputs land only in this repo's `examples/` dir.
 - Python implementations of `MatchedSpectrum` (Hermitian-symmetric FFT phase randomization) and `UniformShuffle` (numpy random permutation), each citing the Lean theorem that certifies its invariance property
 - Ran on K2-18b posterior-median residuals from JWST-biosignatures `exp_round_a2_k2_18b_phys` (N=64, lowres, NIRISS+NIRSpec)
 - **Result:** T_real = 7.66 (chi² in 3.2–3.6 µm DMS window). Null means ~11.0 ± 5.7. **p = 0.695 (MS), p = 0.679 (US)**. DMS-window chi² is *lower* than null mean (z ≈ −0.6). Frequentist corroboration of Bayesian rejection.
