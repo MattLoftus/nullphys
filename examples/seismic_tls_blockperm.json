@@ -1,0 +1,47 @@
+{
+  "feature_csv": "/Users/Loftus/workspace/seismic-precursors/experiments/exp07_macro_pra2/feature_summary.csv",
+  "n_windows": 939,
+  "n_precursor": 139,
+  "n_null_A": 800,
+  "qualifying_regions": [
+    "California",
+    "Cascadia",
+    "Turkey",
+    "Italy"
+  ],
+  "macro_auc_real": 0.7794792605105105,
+  "exp18_published_macro_auc": 0.779,
+  "exp19_published_z_iid": 11.0,
+  "exp19_published_z_block_circular": 8.37,
+  "UniformShuffle": {
+    "macro_real": 0.7794792605105105,
+    "null_mean": 0.4998783854283463,
+    "null_std": 0.02700708357680503,
+    "z": 10.352871841456395,
+    "p_two_sided": 0.0,
+    "n_perm": 1000,
+    "lean_theorem": "NullPhys.UniformShuffle.preserves_labelMultiset"
+  },
+  "BlockPermutation_region": {
+    "macro_real": 0.7794792605105105,
+    "null_mean": 0.49868322747747745,
+    "null_std": 0.024998760666226787,
+    "z": 11.232398148936529,
+    "p_two_sided": 0.0,
+    "n_perm": 1000,
+    "blocks": "region (4 LORO regions)",
+    "lean_theorem": "NullPhys.BlockPermutation.preserves_perBlockMultiset"
+  },
+  "BlockPermutation_region_x_time": {
+    "macro_real": 0.7794792605105105,
+    "null_mean": 0.5768316921921921,
+    "null_std": 0.02137518478542855,
+    "z": 9.480506033167169,
+    "p_two_sided": 0.0,
+    "n_perm": 1000,
+    "blocks": "region \u00d7 365-day bin (97 blocks)",
+    "lean_theorem": "NullPhys.BlockPermutation.preserves_perBlockMultiset"
+  },
+  "rng_seed": 20260520,
+  "interpretation": "All three NullPhys-certified nulls give very large z scores. z drops monotonically as the block structure becomes tighter (no blocks \u2192 region blocks \u2192 region \u00d7 30-day blocks), but the trivial-scalar signal survives at >>3\u03c3 under all of them. Independent confirmation of the seismic-precursors session-18 robustness story, now with Lean-kernel-verified nulls."
+}

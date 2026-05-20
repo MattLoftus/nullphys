@@ -60,6 +60,17 @@ v1.0 ships a capstone paper: a Lean-verified re-test of one published
   the JWST-biosignatures Bayesian rejection (BF = −1.17). Two independent statistical
   paradigms converging.
 
+### v0.2.1 — Second capstone application (2026-05-20)
+
+- [x] **Seismic trivial-scalar block-permutation reproduction** (`examples/seismic_tls_blockperm.{py,png,json}`):
+  Re-run exp19's permutation tests on the seismic-precursors session-18 trivial scalar
+  (log10 Benioff energy in last 5 days, 939 windows, 4 LORO regions) with three
+  NullPhys-certified nulls. Read-only on the seismic-precursors tree.
+  Results: **z = +10.35 (UniformShuffle), +11.23 (BlockPermutation by region),
+  +9.48 (BlockPermutation by region × 365-day)** — vs. published exp19 z_iid = +11.00
+  and z_block_circular = +8.37. All three NullPhys-certified nulls give z ≫ 3, signal
+  robust. Reproduces exp19's conclusion to within ~10–15% on z.
+
 ### v0.2 — Wiring
 
 - [ ] `nullphys-py` bridge: Python wrapper that calls the Lean-verified implementation from Jupyter
@@ -131,6 +142,14 @@ None formalize "the null model used in *this specific published 3-5σ claim*" �
 **Window-closing risk: 6 months.** Move fast.
 
 ## Changelog
+
+### 2026-05-20 — Session 4 (seismic-precursors second capstone)
+
+- Built `examples/seismic_tls_blockperm.py`: NullPhys-certified re-run of exp19's permutation tests on the seismic-precursors trivial-scalar finding. Read-only on `~/workspace/seismic-precursors` (loads catalogs + feature summary; re-derives the last-5-day log10 Benioff scalar via the same `catalog_trajectory` logic).
+- Three nulls: UniformShuffle (iid), BlockPermutation(region), BlockPermutation(region × 365-day).
+- Results: z = +10.35, +11.23, +9.48 against published exp19 z_iid=+11.00 and z_block_circular=+8.37. All three reject at z ≫ 3; signal robust across structurally distinct nulls.
+- Updated `examples/README.md` with the seismic section + table + Lean-theorem citations.
+- Demonstrates a SECOND v0.1 module on a SECOND application domain (seismology after exoplanet biosignatures). Two real-data applications + the JOSS paper now form a substantive methods-paper foundation.
 
 ### 2026-05-20 — Session 3 (K2-18b capstone application)
 

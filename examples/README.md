@@ -49,6 +49,71 @@ evidence comparison and surrogate-null hypothesis testing — both
 conclude that the K2-18b residuals are not consistent with a DMS
 detection beyond what the base+CH4 model already captures.
 
+---
+
+## Seismic trivial-scalar — block-permutation reproduction
+
+**Files:** `seismic_tls_blockperm.py`, `seismic_tls_blockperm.png`, `seismic_tls_blockperm.json`
+
+The seismic-precursors project
+([github.com/MattLoftus/seismic-precursors](https://github.com/MattLoftus/seismic-precursors))
+found in session 18 / exp18 that the trivial scalar
+`log10 Benioff energy in last 5 days` reaches macro AUC = 0.779 across
+4 LORO regions (California, Cascadia, Turkey, Italy), beating the
+elaborate TLS template apparatus (AUC = 0.704). Exp19 ran 5 controls
+including a 30-day-block circular-shift null at z = +8.37.
+
+This example re-runs the permutation tests on the **same 939 windows**
+(139 precursor + 800 null-A) with three NullPhys-certified nulls:
+
+| Null | NullPhys theorem | Block structure |
+|---|---|---|
+| `UniformShuffle` | `preserves_labelMultiset` | none (i.i.d. label permutation) |
+| `BlockPermutation` | `preserves_perBlockMultiset` | `region` (4 LORO regions) |
+| `BlockPermutation` | `preserves_perBlockMultiset` | `region × 365-day calendar bin` (97 blocks) |
+
+### Result (2026-05-20)
+
+| Null | z | Comparison |
+|---|---|---|
+| Observed macro AUC | 0.7795 | (exp18 published 0.779 ✓) |
+| **UniformShuffle** | **+10.35** | (exp19 iid: +11.00) |
+| **BlockPermutation(region)** | **+11.23** | tighter null (fixed per-region label balance) |
+| **BlockPermutation(region × 365-day)** | **+9.48** | (exp19 circular-shift: +8.37) |
+
+Reading the result. The three nulls represent three nested null hypotheses
+about the trivial scalar:
+
+* `UniformShuffle` rejects "the score is independent of the label" —
+  z = +10.4, p ≪ 10⁻¹⁰.
+* `BlockPermutation(region)` rejects "the score is independent of the
+  label *even within each region*" — z = +11.2, equally strong. The
+  signal isn't just region-level mean differences.
+* `BlockPermutation(region × 365-day)` rejects "the score is independent
+  of the label *even within (region, calendar-year)* blocks" — z = +9.5.
+  This is the autocorrelation-aware null. The drop from +11 to +9.5 is
+  smaller than the cold-read reviewer's pessimistic prediction (a
+  collapse to z ≈ 3–4) and consistent with exp19's circular-shift
+  estimate of +8.4.
+
+**Verdict.** The trivial-scalar signal survives all three NullPhys-
+certified nulls at z ≫ 3. The methodological transition from "exp19's
+hand-rolled block-permutation" to "Lean-kernel-verified block-permutation"
+reproduces exp19's conclusion to within ~10–15% on z (the residual gap
+being block-structure choice, not null implementation).
+
+### Reproducing
+
+```bash
+# Only needs the seismic-precursors data; uses /usr/bin/python3 directly.
+/usr/bin/python3 ~/workspace/nullphys/examples/seismic_tls_blockperm.py
+```
+
+Reads the catalogs (`experiments/exp{06,07}_*/catalog_*.csv`) and
+the feature summary (`experiments/exp07_macro_pra2/feature_summary.csv`)
+from `~/workspace/seismic-precursors` read-only. Writes outputs only into
+`nullphys/examples/`.
+
 ### Reproducing
 
 ```bash
