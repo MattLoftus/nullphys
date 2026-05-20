@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: 'NullPhys: A Lean 4 library for formally verified null models'
+message: 'If you use this library, please cite it as below.'
+type: software
+authors:
+  - given-names: Matthew
+    family-names: Loftus
+repository-code: 'https://github.com/MattLoftus/nullphys'
+abstract: >-
+  NullPhys is a Lean 4 + Mathlib library that formalises the null models
+  commonly invoked in empirical hypothesis tests across physics, astronomy,
+  machine learning, and neuroscience. Each null carries a machine-checked
+  proof that it preserves its stated statistical invariant.
+keywords:
+  - lean4
+  - mathlib
+  - formal-verification
+  - null-models
+  - permutation-tests
+  - statistical-methodology
+license: Apache-2.0
+version: '0.1.0'
+date-released: '2026-05-19'
