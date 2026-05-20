@@ -96,6 +96,41 @@ and degree preservation reduces to `Finset` cardinality. For vertices outside
 the swap, adjacency is unchanged. The MatchedSpectrum proof reduces to
 `norm_mul` and Mathlib's `Complex.norm_exp_ofReal_mul_I`.
 
+# Applications
+
+`NullPhys` ships two demonstration applications in `examples/`, each
+re-running a permutation-style significance test on real published data
+using Python implementations of the nulls whose invariance properties are
+certified by the corresponding Lean theorems.
+
+**Exoplanet biosignatures (K2-18b DMS).** @madhusudhan2023 claimed a
+$\sim$3$\sigma$ detection of dimethyl sulfide in the JWST transmission
+spectrum of K2-18b — a contested biosignature claim subsequently rejected
+on Bayesian grounds [@schmidt2025] and via independent retrievals in a
+companion project. The `examples/k2_18b_dms.py` script rebuilds the
+posterior-median base+CH4 forward model, computes chi-residuals, and tests
+the chi² contribution from the 3.2–3.6 µm DMS window against
+`MatchedSpectrum` and `UniformShuffle` null distributions. Both nulls
+give $p \approx 0.7$ — the DMS-window chi² is in fact $\sim$0.6$\sigma$
+*lower* than the null means. The NullPhys-certified frequentist test
+corroborates the Bayesian rejection from an independent statistical
+paradigm.
+
+**Seismology (foreshock trivial-scalar).** A companion seismic-precursor
+project reports that the trivial scalar "$\log_{10}$ Benioff energy in
+the last five days of a 30-day window" discriminates pre-mainshock
+windows from null windows at macro AUC = 0.779 across four leave-one-
+region-out splits (California, Cascadia, Turkey, Italy) — beating an
+elaborate template-bank apparatus and consistent with @trugman2019.
+`examples/seismic_tls_blockperm.py` re-runs the permutation tests under
+three NullPhys-certified nulls. `UniformShuffle` gives $z = +10.4$,
+matching the published $z_\mathrm{iid} = +11.0$; `BlockPermutation` with
+region-blocks gives $z = +11.2$ (label-balance-preserving null);
+`BlockPermutation` with (region $\times$ 365-day) blocks gives $z = +9.5$,
+comparable to the published 30-day circular-shift estimate of $z = +8.4$.
+The signal is robust across all three structurally distinct nulls at
+$z \gg 3$.
+
 # Acknowledgements
 
 `NullPhys` builds on Mathlib [@mathlib2020] and inherits its toolchain pinning
