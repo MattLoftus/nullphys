@@ -1,0 +1,33 @@
+{
+  "target": "K2-18b",
+  "n_data": 64,
+  "wl_range_um": [
+    0.8696455948376645,
+    5.1277970509202
+  ],
+  "dms_window_um": [
+    3.2,
+    3.6
+  ],
+  "n_points_in_window": 7,
+  "T_real": 7.65662651168279,
+  "MatchedSpectrum": {
+    "n_realizations": 1000,
+    "p_value": 0.695,
+    "null_mean": 11.09194865795923,
+    "null_std": 5.7766664982402,
+    "T_real_z": -0.5946893675310796,
+    "lean_theorem": "NullPhys.MatchedSpectrum.preserves_amplitudeSpectrum"
+  },
+  "UniformShuffle": {
+    "n_realizations": 1000,
+    "p_value": 0.679,
+    "null_mean": 10.937629843308214,
+    "null_std": 5.634767638996909,
+    "T_real_z": -0.5822783727439562,
+    "lean_theorem": "NullPhys.UniformShuffle.preserves_labelMultiset"
+  },
+  "logz_base_phys": -61.21589644931815,
+  "rng_seed": 20260520,
+  "interpretation": "p-value < 0.05 from either null indicates DMS-window residual variance is unusually high beyond what the null permits. p-value >= 0.05 corroborates the Bayesian rejection."
+}
