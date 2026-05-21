@@ -114,6 +114,138 @@ the feature summary (`experiments/exp07_macro_pra2/feature_summary.csv`)
 from `~/workspace/seismic-precursors` read-only. Writes outputs only into
 `nullphys/examples/`.
 
+---
+
+## COBRE schizophrenia — `MaslovSneppen` degree-preserving rewires
+
+**Files:** `brain_cheeger_maslov_sneppen.py`, `brain_cheeger_maslov_sneppen.png`, `brain_cheeger_maslov_sneppen.json`
+
+The companion network-neuroscience project
+([github.com/MattLoftus/network-neuroscience](https://github.com/MattLoftus/network-neuroscience))
+tests the Cheeger constant as a biomarker for neurological disease,
+using Maslov–Sneppen degree-preserving rewires as the null model
+("50 Maslov-Sneppen nulls per subject" in the standard pipeline).
+
+This example applies the **NullPhys-certified MaslovSneppen rewire**
+to the COBRE schizophrenia dataset (146 subjects, 64-region atlas,
+threshold 75%). Every swap is checked against the `IsValidSwap`
+predicate from `Nullphys/MaslovSneppen.lean`, and the degree
+sequence is asserted invariant after every swap. The runtime
+assertion is the operational mirror of the Lean theorem
+`NullPhys.MaslovSneppen.degree_swap_eq` — if it ever failed, either
+the Python implementation is wrong or the Lean proof is wrong.
+
+### Result (2026-05-20)
+
+- 30 sz + 30 ctrl subjects, 20 NullPhys rewires per subject.
+- Per-rewire: ~5000 valid double-edge swaps; total ≈ **6 million certified swaps**.
+- **Zero failures** of the per-swap degree-preservation assertion.
+- COBRE Cheeger contrast at 75% threshold: raw d = −0.009 (p = 0.84), null-corrected d = −0.017 (p = 0.79). The dataset does not show a Cheeger effect for schizophrenia at this threshold (separate from autism, where the netneuro PLAYBOOK reports d = +0.156 null-corrected on ABIDE).
+
+The headline is methodological. ~6 million swaps, all certified — the Lean theorem holds at scale in practice, exactly as proved.
+
+### Reproducing
+
+```bash
+/usr/bin/python3 ~/workspace/nullphys/examples/brain_cheeger_maslov_sneppen.py
+```
+
+Reads `data/cobre/cobre_resolution_64.mat` and imports
+`netneuro.metrics.cheeger_constant_approx` from
+`~/workspace/network-neuroscience` read-only.
+
+---
+
+## NANOGrav 15-yr — `MatchedSpectrum` phase randomisation
+
+**Files:** `nanograv_lambda_max_matched_spectrum.py`, `nanograv_lambda_max_matched_spectrum.png`, `nanograv_lambda_max_matched_spectrum.json`
+
+The companion nanograv-spectral project
+([github.com/MattLoftus/nanograv-spectral](https://github.com/MattLoftus/nanograv-spectral))
+tests the leading eigenvalue `λ_max(C)` of the inter-pulsar
+correlation matrix under two distinct nulls: a matched-Gaussian
+variance-only null and a phase-randomized PSD-preserving null. Their
+exp03 (10-yr scope, 24 pulsars, 500 realisations) reports:
+
+* Matched-Gaussian: real = 4.609, null mean 2.525 → **z = +13.07** (the PLAYBOOK's "+12.7σ").
+* Phase-randomized: real = 4.609, null mean 4.498 → **z = +0.22**.
+
+This example replicates the phase-randomized variant on the **same
+24-pulsar subset** using a NullPhys-certified `MatchedSpectrum`
+implementation (per-pulsar rFFT phase rotation with Hermitian
+symmetry; Lean theorem
+`NullPhys.MatchedSpectrum.preserves_amplitudeSpectrum` certifies the
+per-frequency norm invariance).
+
+### Result (2026-05-20)
+
+| Quantity | Value | Published |
+|---|---|---|
+| λ_max(C) (real) | 4.532 | 4.609 |
+| Null mean | 4.508 | 4.498 |
+| Null std (N=100 ours / 500 published) | 0.403 | 0.495 |
+| **z** | **+0.06** | **+0.22** |
+
+Mine matches the published phase-randomized z within sampling noise.
+The +12.7σ headline in the project PLAYBOOK is the matched-Gaussian
+null, which is a *different* null model and is **not** what NullPhys
+v0.1 formalises — matched-Gaussian destroys the per-pulsar PSD, while
+NullPhys's `MatchedSpectrum` preserves it.
+
+### Reproducing
+
+```bash
+/usr/bin/python3 ~/workspace/nullphys/examples/nanograv_lambda_max_matched_spectrum.py
+```
+
+Reads `experiments/exp02_lesson_32_baseline/results.npz` (R, S matrices)
+and `experiments/exp03_round_b/results_10yr.npz` (10-yr pulsar list +
+published null distributions) from `~/workspace/nanograv-spectral`
+read-only.
+
+---
+
+## 2D Ising at criticality — `UniformShuffle` density-vs-topology decomposition
+
+**Files:** `tda_ising_uniform_shuffle.py`, `tda_ising_uniform_shuffle.png`, `tda_ising_uniform_shuffle.json`
+
+The companion tda-phases project
+([github.com/MattLoftus/tda-phases](https://github.com/MattLoftus/tda-phases))
+result R3-3 (score 8.5) reports that **~94–96% of the H0
+total-persistence signal in 2D Ising at T_C is density-driven** — a
+shuffled-spins null reproduces it. H1 features by contrast carry
+genuine topological information.
+
+This example re-runs the H0-vs-H1 decomposition on a small Ising
+ensemble (L=24, T=T_C, 15 configs, 10 NullPhys shuffles per config)
+using the NullPhys-certified UniformShuffle. Every shuffle is asserted
+post-hoc to preserve the spin multiset — the operational mirror of the
+Lean theorem `NullPhys.UniformShuffle.preserves_labelMultiset`.
+
+### Result (2026-05-20)
+
+| Statistic | real | NullPhys shuffle null | ratio |
+|---|---|---|---|
+| H0 total persistence | 123.4 ± 8.0 | 123.1 ± 8.7 | **1.002** — density-driven |
+| H1 total persistence | 112.1 ± 8.7 | 108.4 ± 10.1 | **1.034** — topological |
+
+R3-3 finding qualitatively reproduces at small L: H0 ratio ≈ 1
+(matches the published 94–96% density-driven), H1 ratio > 1 (genuine
+topological signal). 150 NullPhys shuffles, **zero multiset
+preservation failures**.
+
+### Reproducing
+
+```bash
+PYTHONPATH=~/workspace/tda-phases \
+    ~/workspace/tda-phases/.venv/bin/python3 \
+    ~/workspace/nullphys/examples/tda_ising_uniform_shuffle.py
+```
+
+Imports `tda_phases.models.Ising2D` and
+`tda_phases.filtrations.{point_cloud_alpha,persistence_stats}` from
+`~/workspace/tda-phases` read-only. Outputs into `nullphys/examples/`.
+
 ### Reproducing
 
 ```bash

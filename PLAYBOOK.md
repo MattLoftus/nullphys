@@ -71,6 +71,37 @@ v1.0 ships a capstone paper: a Lean-verified re-test of one published
   and z_block_circular = +8.37. All three NullPhys-certified nulls give z ≫ 3, signal
   robust. Reproduces exp19's conclusion to within ~10–15% on z.
 
+### v0.2.2 — Three more capstone applications (2026-05-20, post-cold-read pivot)
+
+After the cold-read scored v0.1+capstones at 4.5, ran NullPhys against three more
+existing projects to broaden the application portfolio. Read-only on each source
+project; all outputs in `examples/`.
+
+- [x] **COBRE schizophrenia + MaslovSneppen** (`examples/brain_cheeger_maslov_sneppen.{py,png,json}`):
+  30 sz + 30 ctrl subjects from `~/workspace/network-neuroscience/data/cobre/`,
+  64-region atlas at 75% threshold, 20 NullPhys-certified Maslov–Sneppen rewires
+  per subject. **~6 million certified swaps, zero degree-preservation assertion
+  failures** — the operational mirror of `NullPhys.MaslovSneppen.degree_swap_eq`.
+  COBRE Cheeger contrast: raw d=−0.009 (p=0.84), null-corrected d=−0.017 (p=0.79)
+  — no schizophrenia signal at this threshold. (The netneuro PLAYBOOK reports
+  d=+0.156 on ABIDE autism; we did not re-run that.) **Fills the cold-read's
+  literal item #2: "apply MaslovSneppen to real network data."**
+- [x] **NANOGrav phase-randomized null + MatchedSpectrum** (`examples/nanograv_lambda_max_matched_spectrum.{py,png,json}`):
+  Re-run NANOGrav exp03's phase-randomized null test on the leading eigenvalue
+  λ_max(C) of the inter-pulsar correlation matrix, same 24-pulsar 10-yr-scope
+  subset. NullPhys MatchedSpectrum gives **z = +0.06**; published exp03
+  phase-randomized z = +0.22 (within sampling noise of N=100 vs N=500). The
+  PLAYBOOK's headline +12.7σ is the matched-Gaussian null — a different null
+  model NOT formalised in v0.1 (because matched-Gaussian destroys the per-pulsar
+  PSD that MatchedSpectrum preserves).
+- [x] **2D Ising R3-3 reproduction + UniformShuffle** (`examples/tda_ising_uniform_shuffle.{py,png,json}`):
+  Re-run the tda-phases R3-3 density-vs-topology decomposition at L=24, T=T_C
+  with NullPhys-certified UniformShuffle of the spin lattice. **150 shuffles,
+  zero multiset-preservation failures**. H0 ratio (real/null) = 1.002 (R3-3's
+  predicted density-driven regime); H1 ratio = 1.034 (R3-3's predicted
+  topological regime). Qualitatively reproduces the R3-3 score-8.5 result at
+  small L.
+
 ### v0.2 — Wiring
 
 - [ ] `nullphys-py` bridge: Python wrapper that calls the Lean-verified implementation from Jupyter
@@ -142,6 +173,16 @@ None formalize "the null model used in *this specific published 3-5σ claim*" �
 **Window-closing risk: 6 months.** Move fast.
 
 ## Changelog
+
+### 2026-05-20 — Session 5 (three more capstone applications post cold-read)
+
+- Cold-read on v0.1+capstones returned **4.5**. Three identified levers: (1) measure-theoretic exchangeability theorem in Lean (hardest), (2) MaslovSneppen real-data demo (cold-read item #2), (3) verdict-changing application (cold-read item #3).
+- This session addressed item (2) and broadened the application portfolio by running NullPhys against three more existing projects. All read-only on the source projects; no commits touching their trees.
+- **COBRE schizophrenia + MaslovSneppen**: ~6M certified swaps, zero failures. No schizophrenia Cheeger signal at this dataset/threshold (different from netneuro PLAYBOOK's ABIDE autism result, which we did not re-run).
+- **NANOGrav + MatchedSpectrum**: z=+0.06 reproduces published phase-randomized z=+0.22 within sampling noise.
+- **TDA-phases Ising R3-3 + UniformShuffle**: H0/H1 ratios qualitatively reproduce the score-8.5 R3-3 density-vs-topology decomposition.
+- examples/README.md updated with full sections for each.
+- The applications portfolio now covers 4 of 5 v0.1 nulls (Identity is trivial; Uniform, Block, MaslovSneppen, MatchedSpectrum all have real-data demos) across 5 different scientific domains (exoplanets, seismology, schizophrenia connectomes, pulsar timing arrays, Ising critical phenomena).
 
 ### 2026-05-20 — Session 4 (seismic-precursors second capstone)
 

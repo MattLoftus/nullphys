@@ -1,0 +1,31 @@
+{
+  "dataset": "COBRE resolution 64",
+  "n_sz_total": 72,
+  "n_ct_total": 74,
+  "n_sz_used": 30,
+  "n_ct_used": 30,
+  "threshold_pct": 75,
+  "n_nulls_per_subject": 20,
+  "n_swaps_per_rewire": 5040,
+  "rng_seed": 20260520,
+  "raw_Cheeger": {
+    "name": "raw Cheeger",
+    "n_sz": 30,
+    "n_ct": 30,
+    "mean_sz": 0.20585257748412447,
+    "mean_ct": 0.2043708486716009,
+    "cohens_d": -0.00940926480537733,
+    "p_value": 0.838835607724068
+  },
+  "null_corrected_Cheeger": {
+    "name": "null-corrected Cheeger",
+    "n_sz": 30,
+    "n_ct": 30,
+    "mean_sz": -0.09369264000937205,
+    "mean_ct": -0.09519477423443062,
+    "cohens_d": -0.017303815830553862,
+    "p_value": 0.792053665079312
+  },
+  "lean_theorem": "NullPhys.MaslovSneppen.degree_swap_eq (Nullphys/MaslovSneppen.lean) \u2014 every valid swap preserves all vertex degrees. Asserted at runtime after every swap; never failed.",
+  "interpretation": "The NullPhys-certified Maslov-Sneppen rewire preserves the degree sequence of every subject network (asserted post-swap across 60 subjects \u00d7 20 rewires \u00d7 ~5000 swaps each \u2248 several million certified swaps). Group-level Cheeger results: see raw vs null-corrected effect sizes."
+}
