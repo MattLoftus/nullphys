@@ -174,6 +174,14 @@ None formalize "the null model used in *this specific published 3-5σ claim*" �
 
 ## Changelog
 
+### 2026-05-21 — Session 5 close-out
+
+- Cold-read v2 on the updated state (5 nulls + 5 applications): **5.5/10** (up from 4.5 with just 2 applications). Reviewer verdict: *"Five real-data demos across exoplanet spectroscopy, seismology, network neuroscience, GW astronomy, and critical phenomena demonstrate cross-domain breadth and operational validation (~6M certified Maslov-Sneppen swaps with zero assertion failures is concrete evidence the theorems aren't decorative)."*
+- Past 5.0 specialist-journal threshold (JOSS / arXiv methods-note tier). Short of 6.0 strong-journal tier.
+- Path to +1.0 (to 6.5) per the cold-read: (a) measure-theoretic exchangeability theorem in Lean — "turns this from a typed-invariants library into a verified-inference library"; (b) one demo that genuinely overturns or sharpens a published claim. Both substantive multi-week efforts.
+- Two lessons added to `~/workspace/RESEARCH_LEARNINGS.md`: **#131** (JOSS 6-month pre-review gate), **#132** (combinatorial-invariance vs measure-theoretic-validity ceiling; 5 demos pushed 4.5 → 5.5, next +1.0 requires bridge theorem not more demos).
+- **Project parked as infrastructure.** Library is reusable: every future research project can pull NullPhys for kernel-checked nulls + the Python implementations with runtime assertions. Revisit publication when (i) JOSS 6-month gate satisfied, OR (ii) exchangeability theorem implemented, OR (iii) verdict-changing application emerges from another project.
+
 ### 2026-05-20 — Session 5 (three more capstone applications post cold-read)
 
 - Cold-read on v0.1+capstones returned **4.5**. Three identified levers: (1) measure-theoretic exchangeability theorem in Lean (hardest), (2) MaslovSneppen real-data demo (cold-read item #2), (3) verdict-changing application (cold-read item #3).
